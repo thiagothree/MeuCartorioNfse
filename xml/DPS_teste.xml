@@ -1,0 +1,35 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DPS xmlns="http://www.sped.fazenda.gov.br/nfse" versao="1.01">
+  <infDPS Id="DPS261390310538764000199000000000000000000001">
+    <tpAmb>2</tpAmb>
+    <dhEmi>2026-09-15T20:00:00-03:00</dhEmi>
+    <verAplic>MeuCartorio-0.1</verAplic>
+    <serie>1</serie>
+    <nDPS>1</nDPS>
+    <dCompet>2026-09-15</dCompet>
+    <tpEmit>1</tpEmit>
+    <cLocEmi>2613903</cLocEmi>
+    <prest>
+      <CNPJ>10538764000199</CNPJ>
+    </prest>
+    <toma>
+      <CPF>12312312312</CPF>
+    </toma>
+    <serv>
+      <locPrest>
+        <cLocPrestacao>2613903</cLocPrestacao>
+        <cPaisPrestacao>BR</cPaisPrestacao>
+      </locPrest>
+      <cServ>
+        <cTribNac>210101</cTribNac>
+        <xDescServ>Certidão em inteiro teor</xDescServ>
+        <cNBS>113040000</cNBS>
+      </cServ>
+    </serv>
+    <valores>
+      <vServPrest>
+        <vServ>55.62</vServ>
+      </vServPrest>
+    </valores>
+  </infDPS>
+</DPS>
