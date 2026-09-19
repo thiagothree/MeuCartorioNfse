@@ -11,14 +11,18 @@
     <cLocEmi>2613903</cLocEmi>
     <prest>
       <CNPJ>10538764000199</CNPJ>
+      <regTrib>
+        <opSimpNac>1</opSimpNac>
+        <regEspTrib>4</regEspTrib>
+      </regTrib>
     </prest>
     <toma>
       <CPF>12312312312</CPF>
+      <xNome>Tomador Teste</xNome>
     </toma>
     <serv>
       <locPrest>
         <cLocPrestacao>2613903</cLocPrestacao>
-        <cPaisPrestacao>BR</cPaisPrestacao>
       </locPrest>
       <cServ>
         <cTribNac>210101</cTribNac>
@@ -30,6 +34,15 @@
       <vServPrest>
         <vServ>55.62</vServ>
       </vServPrest>
+      <trib>
+        <tribMun>
+          <tribISSQN>1</tribISSQN>
+          <tpRetISSQN>2</tpRetISSQN>
+        </tribMun>
+        <totTrib>
+          <indTotTrib>0</indTotTrib>
+        </totTrib>
+      </trib>
     </valores>
   </infDPS>
 </DPS>

@@ -47,19 +47,19 @@ DESCRICAO_SERVICO = "Certidão em inteiro teor"
 # CRIA XML
 # =========================
 
-def criar_dps():
+def gerar_dps(dps):
 
     # Elemento raiz DPS
-    dps = etree.Element(
+    dps_xml = etree.Element(
         f"{{{NS_NFSE}}}DPS",
         nsmap={None: NS_NFSE}
     )
 
-    dps.set("versao", "1.01")
+    dps_xml.set("versao", "1.01")
 
     # Informações da DPS
     inf_dps = etree.SubElement(
-        dps,
+        dps_xml,
         f"{{{NS_NFSE}}}infDPS"
     )
 
@@ -102,7 +102,7 @@ def criar_dps():
     etree.SubElement(
         inf_dps,
         f"{{{NS_NFSE}}}dCompet"
-    ).text = DATA_COMPETENCIA
+    ).text = dps.data_competencia
 
     # Emitente
     etree.SubElement(
@@ -126,10 +126,34 @@ def criar_dps():
         f"{{{NS_NFSE}}}prest"
     )
 
+    # CNPJ do prestador
     etree.SubElement(
         prest,
         f"{{{NS_NFSE}}}CNPJ"
     ).text = CNPJ_PRESTADOR
+
+    # Regime tributário
+    reg_trib = etree.SubElement(
+        prest,
+        f"{{{NS_NFSE}}}regTrib"
+    )
+
+    # Não optante pelo Simples Nacional
+    etree.SubElement(
+        reg_trib,
+        f"{{{NS_NFSE}}}opSimpNac"
+    ).text = OP_SIMP_NAC
+
+    # Nenhum regime de apuração do Simples,
+    # pois o cartório não é optante
+    #
+    # regApTribSN não será informado.
+
+    # Regime especial: Notário ou Registrador
+    etree.SubElement(
+        reg_trib,
+        f"{{{NS_NFSE}}}regEspTrib"
+    ).text = REG_ESP_TRIB
 
 
     # =========================
@@ -144,7 +168,12 @@ def criar_dps():
     etree.SubElement(
         toma,
         f"{{{NS_NFSE}}}CPF"
-    ).text = CPF_CNPJ_TOMADOR
+    ).text = dps.cpf_cnpj
+
+    etree.SubElement(
+        toma,
+        f"{{{NS_NFSE}}}xNome"
+    ).text = "Tomador Teste"
 
 
     # =========================
@@ -158,19 +187,14 @@ def criar_dps():
 
     # Local da prestação
     loc_prest = etree.SubElement(
-        serv,
-        f"{{{NS_NFSE}}}locPrest"
+    serv,
+    f"{{{NS_NFSE}}}locPrest"
     )
 
     etree.SubElement(
         loc_prest,
         f"{{{NS_NFSE}}}cLocPrestacao"
     ).text = CODIGO_MUNICIPIO
-
-    etree.SubElement(
-        loc_prest,
-        f"{{{NS_NFSE}}}cPaisPrestacao"
-    ).text = "BR"
 
 
     # Serviço
@@ -187,7 +211,7 @@ def criar_dps():
     etree.SubElement(
         c_serv,
         f"{{{NS_NFSE}}}xDescServ"
-    ).text = DESCRICAO_SERVICO
+    ).text = dps.descricao_servico
 
     etree.SubElement(
         c_serv,
@@ -212,7 +236,37 @@ def criar_dps():
     etree.SubElement(
         v_serv_prest,
         f"{{{NS_NFSE}}}vServ"
-    ).text = VALOR_SERVICO
+    ).text = f"{dps.valor_servico:.2f}"
+
+    trib = etree.SubElement(
+        valores,
+        f"{{{NS_NFSE}}}trib"
+    )
+
+    trib_mun = etree.SubElement(
+        trib,
+        f"{{{NS_NFSE}}}tribMun"
+    )
+
+    etree.SubElement(
+        trib_mun,
+        f"{{{NS_NFSE}}}tribISSQN"
+    ).text = "1"
+
+    etree.SubElement(
+        trib_mun,
+        f"{{{NS_NFSE}}}tpRetISSQN"
+    ).text = "2"
+
+    tot_trib = etree.SubElement(
+        trib,
+        f"{{{NS_NFSE}}}totTrib"
+    )
+
+    etree.SubElement(
+        tot_trib,
+        f"{{{NS_NFSE}}}indTotTrib"
+    ).text = "0"
 
 
     # =========================
@@ -221,7 +275,7 @@ def criar_dps():
 
     caminho = PASTA_XML / "DPS_teste.xml"
 
-    arvore = etree.ElementTree(dps)
+    arvore = etree.ElementTree(dps_xml)
 
     arvore.write(
         str(caminho),
@@ -229,6 +283,8 @@ def criar_dps():
         xml_declaration=True,
         pretty_print=True
     )
+
+    return caminho
 
     print()
     print("=" * 60)
@@ -238,5 +294,3 @@ def criar_dps():
     print()
 
 
-if __name__ == "__main__":
-    criar_dps()

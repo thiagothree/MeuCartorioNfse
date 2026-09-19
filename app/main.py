@@ -1,6 +1,9 @@
 from typing import Literal
+
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
+
+from app.gerar_dps import gerar_dps
 
 
 app = FastAPI()
@@ -9,12 +12,14 @@ app = FastAPI()
 class DPS(BaseModel):
     cpf_cnpj: str
     data_competencia: str
+
     tipo_servico: Literal[
         "certidao",
-        "retificao",
+        "retificacao",
         "averbacao",
         "casamento"
     ]
+
     valor_servico: float = Field(gt=0)
     descricao_servico: str
 
@@ -26,9 +31,14 @@ def inicio():
         "status": "online"
     }
 
+
 @app.post("/dps")
 def criar_dps(dps: DPS):
+
+    arquivo = gerar_dps(dps)
+
     return {
-        "mensagem": "DPS recebida com sucesso!",
+        "mensagem": "DPS gerada com sucesso!",
+        "arquivo": str(arquivo),
         "dados": dps
     }
